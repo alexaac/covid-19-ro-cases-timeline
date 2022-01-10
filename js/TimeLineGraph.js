@@ -1,5 +1,4 @@
 import * as Config from './Config.js';
-import * as Layout from './Layout.js';
 import * as Tooltip from './Tooltip.js';
 
 // LineChart Class
@@ -129,14 +128,15 @@ export default class TimeLineGraph {
                 .data(viz.dataFiltered.nodes)
                 .enter()
                 .append('g')
-                .attr('class', 'node');
+                .attr('class', 'node')
+                .attr('transform', d => `translate(${viz.xScale(d.date) || -100}, ${viz.yScale(d.dayOrder)})`);
 
             viz.nodes.append('circle')
                 .attr('id', d => d.properties && `CO-${d.properties.case_no}`)
                 .attr('class', d => d.properties && `CO-nodes-${d.properties.source_no}`)
                 .classed('nodes', true)
-                .attr('cx', d => viz.xScale(d.date) || -100)
-                .attr('cy', d => viz.yScale(d.dayOrder))
+                .attr('cx', 0)
+                .attr('cy', 0)
                 .attr('r', d => d.r)
                 .on('touchstart mouseover', d => Tooltip.highlight(d, viz.cases));
                     
